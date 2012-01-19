@@ -50,9 +50,17 @@ public class ThomsonPoint {
 	 */
 	public double get_energy(ThomsonPoint point) {
 
-		double distance = Geometry.length(this.point, point.point);
-
-		return 1 / distance;
+		return 1 / this.get_distance(point);
+	}
+	
+	/**
+	 * Calculate distance between two points
+	 * @param point
+	 * @return double
+	 */
+	public double get_distance(ThomsonPoint point) {
+		
+		return Geometry.length(this.point, point.point);
 	}
 
 	/**
@@ -74,7 +82,7 @@ public class ThomsonPoint {
 	/**
 	 * calculate point energy 
 	 */
-	public void calculateEnergy(ThomsonPoint[] points) {
+	public void calculate_energy(ThomsonPoint[] points) {
 
 		this.energy = 0;
 		for (ThomsonPoint p : points) {
