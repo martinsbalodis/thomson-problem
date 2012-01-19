@@ -13,6 +13,8 @@ public class Thomson {
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
-		// TODO code application logic here
+		
+		ThomsonSphere sphere = new ThomsonSphere(3);
+		
 	}
 }
