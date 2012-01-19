@@ -16,5 +16,6 @@ public class Thomson {
 		
 		ThomsonSphere sphere = new ThomsonSphere(3);
 		
+		sphere.arrange_points();
 	}
 }

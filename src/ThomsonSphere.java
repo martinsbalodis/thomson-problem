@@ -28,4 +28,21 @@ public class ThomsonSphere {
 		}
 		
 	}
+	
+	/**
+	 * Arrange to their correct places
+	 */
+	public void arrange_points() {
+		
+		ThomsonPoint p1;
+		ThomsonPoint p2;
+		
+		// Find point with maximum energy
+		for(ThomsonPoint p : this.points) {
+			
+		}
+		
+		
+		
+	}
 }
