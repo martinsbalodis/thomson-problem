@@ -25,8 +25,7 @@ public class ThomsonPoint {
 	 * Puts point in a random place on sphere
 	 */
 	public void put_in_random_position() {
-
-		System.out.println(Math.random() - .5);
+		
 		// create point as a normalized vector
 		this.point[0] = Math.random() - .5;
 		this.point[1] = Math.random() - .5;

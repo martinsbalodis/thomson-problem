@@ -58,6 +58,38 @@ public class ThomsonSphere {
 	}
 	
 	/**
+	 * Find point closest points and put them in array. Closest point is array[0]
+	 * @param points
+	 * @param point 
+	 */
+	public void find_closest_points(ThomsonPoint points[], ThomsonPoint point) {
+
+		double min_distance = 2;
+		// Find first closest points
+		for (int i = 0; i < this.points.length; i++) {
+
+			if (point != this.points[i]) {
+
+				// point is closer than previous one
+				// @TODO here I might want to take <
+				if (point.get_distance(this.points[i]) <= min_distance) {
+
+					// Move previous points up in the array
+					for (int j = points.length-2; j >= 0; j--) {
+						
+						if(points[j] != null) {
+							points[j+1] = points[j];
+						}
+					}
+					
+					// Add this point to the array
+					points[0] = this.points[i];
+				}
+			}
+		}
+	}
+	
+	/**
 	 * Arrange to their correct places
 	 */
 	public void arrange_points() {
@@ -69,21 +101,10 @@ public class ThomsonSphere {
 		ThomsonPoint maximum_energy_point = this.get_maximum_energy_point();
 		
 		// Find closest, second closest neighbour
-		double energy_between, maximum_energy_between = 0;
-		ThomsonPoint maximum_energy_neighbour, maximum_energy_neighbour2;
+		ThomsonPoint[] max_energy_points = new ThomsonPoint[2];
+		this.find_closest_points(max_energy_points, maximum_energy_point);
 		
-		for(ThomsonPoint p : this.points) {
-			if(p!=maximum_energy_point) {
-				
-				energy_between = maximum_energy_point.get_energy(p);
-				if(energy_between > maximum_energy_between) {
-
-					maximum_energy_neighbour2 = maximum_energy_neighbour;
-					maximum_energy_neighbour = p;
-					maximum_energy_between = energy_between;
-				}
-			}
-		}
+		// Move p0 away as far as p1 goes. in direction max_e_p->p0
 		
 	}
 }
