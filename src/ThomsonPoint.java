@@ -84,4 +84,33 @@ public class ThomsonPoint {
 			}
 		}
 	}
+	
+	/**
+	 * Move this away from p1
+	 * @param p1
+	 * @param p2 
+	 */
+	public void move_point(ThomsonPoint p1, double distance_move) {
+
+		double[] v1 = new double[3];
+
+		// vector p1->p2
+		v1 = Geometry.createVector(p1.point, this.point);
+
+		double distance = Geometry.length(v1);
+		double distance_koef = distance_move / distance;
+
+		// strech vector
+		v1[0] *= distance_koef;
+		v1[1] *= distance_koef;
+		v1[2] *= distance_koef;
+		
+		// add resulting vector to p1
+		this.point[0] = p1.point[0] + v1[0];
+		this.point[1] = p1.point[1] + v1[1];
+		this.point[2] = p1.point[2] + v1[2];
+		
+		normalizeVector(this.point);
+		
+	}
 }

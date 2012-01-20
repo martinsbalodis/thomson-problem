@@ -105,6 +105,8 @@ public class ThomsonSphere {
 		this.find_closest_points(max_energy_points, maximum_energy_point);
 		
 		// Move p0 away as far as p1 goes. in direction max_e_p->p0
+		double distance_move = max_energy_points[1].get_distance(maximum_energy_point);
+		max_energy_points[0].move_point(maximum_energy_point, distance_move);
 		
 	}
 }
