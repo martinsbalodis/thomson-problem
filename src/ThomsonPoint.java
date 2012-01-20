@@ -14,25 +14,19 @@ public class ThomsonPoint {
 	/**
 	 * Point coordinates
 	 */
-	double[] point;
+	double[] point = new double[3];
+	
 	/**
 	 * point energy comparing to other points
 	 */
 	double energy;
-
-	public void ThomsonPoint() {
-
-		// initialize  memory for point
-		this.point = new double[3];
-
-	}
-
+	
 	/**
 	 * Puts point in a random place on sphere
-	 * @param sphere 
 	 */
-	public void put_in_random_position(ThomsonSphere sphere) {
+	public void put_in_random_position() {
 
+		System.out.println(Math.random() - .5);
 		// create point as a normalized vector
 		this.point[0] = Math.random() - .5;
 		this.point[1] = Math.random() - .5;

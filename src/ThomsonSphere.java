@@ -18,12 +18,12 @@ public class ThomsonSphere {
 	public ThomsonSphere(int point_count) {
 
 		this.points = new ThomsonPoint[point_count];
-
+		
 		// create points
 		for (int i = 0; i < point_count; i++) {
 			
-			ThomsonPoint point = this.points[i];
-			point.put_in_random_position(this);
+			this.points[i] = new ThomsonPoint();
+			this.points[i].put_in_random_position();
 			
 		}
 		
