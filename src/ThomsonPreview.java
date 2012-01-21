@@ -20,12 +20,11 @@ public class ThomsonPreview extends Canvas {
 		this.frame.getContentPane().add(this);
 		this.frame.setTitle("Thomson circle preview");
 		this.frame.setVisible(true);
-//		
-
+		
 	}
 	
 	/**
-	 * Zīmē attēlu
+	 * Redraw image
 	 * @param graphics 
 	 */
 	@Override
