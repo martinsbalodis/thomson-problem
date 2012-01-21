@@ -15,7 +15,8 @@ public class Thomson {
 	public static void main(String[] args) {
 
 		int point_count = Integer.parseInt(args[0]);
-		boolean display_sphere = Boolean.parseBoolean(args[1]);
+		int run_count = Integer.parseInt(args[1]);
+		boolean display_sphere = Boolean.parseBoolean(args[2]);
 
 		ThomsonSphere sphere = new ThomsonSphere(point_count);
 
@@ -26,7 +27,7 @@ public class Thomson {
 
 			ThomsonPreview preview = new ThomsonPreview(sphere);
 
-			for (int i = 0; i <= 100000; i++) {
+			for (int i = 0; i <= run_count; i++) {
 
 				double sphere_energy = sphere.get_energy();
 				if (smallest_found_energy > sphere_energy || smallest_found_energy == -1) {
@@ -38,7 +39,7 @@ public class Thomson {
 			}
 		} 
 		else {
-			for (int i = 0; i <= 100000; i++) {
+			for (int i = 0; i <= run_count; i++) {
 
 				double sphere_energy = sphere.get_energy();
 				if (smallest_found_energy > sphere_energy || smallest_found_energy == -1) {
