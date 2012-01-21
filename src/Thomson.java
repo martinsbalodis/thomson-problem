@@ -16,14 +16,14 @@ public class Thomson {
 
 		int point_count = Integer.parseInt(args[0]);
 		int run_count = Integer.parseInt(args[1]);
-		boolean display_sphere = Boolean.parseBoolean(args[2]);
-
+		int display_sphere = Integer.parseInt(args[2]);
+		
 		ThomsonSphere sphere = new ThomsonSphere(point_count);
 
 		double smallest_found_energy = -1;
 		
 		// Run width formpanel
-		if (display_sphere) {
+		if (display_sphere==1) {
 
 			ThomsonPreview preview = new ThomsonPreview(sphere);
 
