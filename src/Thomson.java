@@ -14,18 +14,18 @@ public class Thomson {
 	 */
 	public static void main(String[] args) {
 		
-		ThomsonSphere sphere = new ThomsonSphere(3);
+		ThomsonSphere sphere = new ThomsonSphere(20);
 		
 		ThomsonPreview preview = new ThomsonPreview(sphere);
 		
-		for(int i = 0;i<=100;i++) {
+		for(int i = 0;i<=10000;i++) {
 		
 			sphere.arrange_points();
 			preview.repaint();
 			
 			try {
 				//do what you want to do before sleeping
-				Thread.currentThread().sleep(1000);//sleep for 1000 ms
+				Thread.currentThread().sleep(1);//sleep for 1000 ms
 				//do what you want to do after sleeptig
 			} catch (Exception e) {
 				//If this thread was intrrupted by nother thread 
