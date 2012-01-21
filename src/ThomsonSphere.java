@@ -4,7 +4,6 @@
  */
 
 import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  *
@@ -18,6 +17,11 @@ public class ThomsonSphere {
 	 * Point energies
 	 */
 	public double[][] energies;
+	
+	/**
+	 * Energy sum from a point to all other points
+	 */
+	public double[] point_energy;
 
 	/**
 	 * initialize points
@@ -28,6 +32,9 @@ public class ThomsonSphere {
 		this.points = new ThomsonPoint[point_count];
 		
 		this.energies = new double[point_count][point_count];
+		
+		this.point_energy = new double[point_count];
+		Arrays.fill(this.point_energy, 0);
 		
 		// create points
 		for (int i = 0; i < point_count; i++) {
@@ -49,9 +56,12 @@ public class ThomsonSphere {
 		for (int i = 0; i < this.points.length; i++) {
 			for (int j = i + 1; j < this.points.length; j++) {
 				double energy = this.points[i].get_energy(this.points[j]);
-				
+
 				this.energies[i][j] = energy;
 				this.energies[j][i] = energy;
+
+				this.point_energy[i] += energy;
+				this.point_energy[j] += energy;
 			}
 		}
 	}
@@ -91,16 +101,19 @@ public class ThomsonSphere {
 	 * @return ThomsonPoint
 	 */
 	public ThomsonPoint get_maximum_energy_point() {
+		
+		// first point is with maximum energy
+		int maximum_energy_point = 0;
+		
+		for (int i = 0; i < this.points.length; i++) {
+			if (this.point_energy[i] < this.point_energy[maximum_energy_point]) {
 
-		ThomsonPoint maximum_energy_point = points[0];
+				maximum_energy_point = i;
 
-		for (ThomsonPoint p : this.points) {
-			if (p.energy > maximum_energy_point.energy) {
-				maximum_energy_point = p;
 			}
 		}
 
-		return maximum_energy_point;
+		return this.points[maximum_energy_point];
 	}
 	
 	/**
@@ -168,7 +181,7 @@ public class ThomsonSphere {
 	public void arrange_points() {
 
 		// update point energy
-		this.update_point_energy();
+		//this.update_point_energy();
 
 		// Find point with maximum energy
 		ThomsonPoint maximum_energy_point = this.get_maximum_energy_point();
