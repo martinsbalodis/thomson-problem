@@ -18,9 +18,19 @@ public class Thomson {
 		
 		ThomsonPreview preview = new ThomsonPreview(sphere);
 		
-		sphere.arrange_points();
+		for(int i = 0;i<=100;i++) {
 		
-		
-		
+			sphere.arrange_points();
+			preview.repaint();
+			
+			try {
+				//do what you want to do before sleeping
+				Thread.currentThread().sleep(1000);//sleep for 1000 ms
+				//do what you want to do after sleeptig
+			} catch (Exception e) {
+				//If this thread was intrrupted by nother thread 
+			}
+
+		}
 	}
 }
