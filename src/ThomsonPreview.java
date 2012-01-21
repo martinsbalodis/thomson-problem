@@ -22,7 +22,7 @@ public class ThomsonPreview extends Canvas {
 		this.frame.setSize(640, 480);
 
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//this.frame.getContentPane().add(canvas);
+		this.frame.getContentPane().add(this);
 		this.frame.setTitle("Thomson circle preview");
 		this.frame.setVisible(true);
 //		
@@ -35,6 +35,17 @@ public class ThomsonPreview extends Canvas {
 	 */
 	@Override
 	public void paint(Graphics graphics) {
+		
+		// Redraw each point
+		for(ThomsonPoint p : sphere.points) {
+			
+			System.out.println((int)(p.point[0]*100.0));
+			graphics.drawRect((int)(p.point[0]*100.0+100), (int)(p.point[1]*100.0+100), 1, 1);
+			
+			graphics.drawOval(100, 100, 100, 100);
+		}
+		
+		
 		
 	}
 	
