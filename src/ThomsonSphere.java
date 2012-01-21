@@ -41,6 +41,25 @@ public class ThomsonSphere {
 	}
 	
 	/**
+	 * Calculate spheres energy
+	 * @return double
+	 */
+	public double get_energy() {
+
+		double energy = 0;
+
+		for (int i = 0; i < this.points.length; i++) {
+
+			for (int j = i + 1; j < this.points.length; j++) {
+				energy += this.points[i].get_energy(this.points[j]);
+			}
+		}
+
+		return energy;
+
+	}
+	
+	/**
 	 * Returns point with maximum energy
 	 * @return ThomsonPoint
 	 */
