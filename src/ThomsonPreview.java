@@ -19,7 +19,7 @@ public class ThomsonPreview extends Canvas {
 
 		this.sphere = sphere;
 
-		this.frame.setSize(640, 480);
+		this.frame.setSize(480, 480);
 
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.frame.getContentPane().add(this);
@@ -43,10 +43,10 @@ public class ThomsonPreview extends Canvas {
 
 			if (p.point[2] > 0) 
 			{
-				graphics.drawRect((int) (p.point[0] * 200.0 + 200), (int) (p.point[1] * 200.0 + 200), 1, 1);
+				graphics.drawRect((int) (p.point[0] * 200.0 + 220), (int) (p.point[1] * 200.0 + 220), 1, 1);
 			}
 		}
-		graphics.drawOval(0, 0, 400, 400);
+		graphics.drawOval(20, 20, 400, 400);
 	}
 	
 }
