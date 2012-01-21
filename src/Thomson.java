@@ -27,7 +27,7 @@ public class Thomson {
 
 			ThomsonPreview preview = new ThomsonPreview(sphere);
 
-			for (int i = 0; i <= run_count; i++) {
+			for (int i = 0; i < run_count; i++) {
 
 				double sphere_energy = sphere.get_energy();
 				if (smallest_found_energy > sphere_energy || smallest_found_energy == -1) {
@@ -39,7 +39,7 @@ public class Thomson {
 			}
 		} 
 		else {
-			for (int i = 0; i <= run_count; i++) {
+			for (int i = 0; i < run_count; i++) {
 
 				double sphere_energy = sphere.get_energy();
 				if (smallest_found_energy > sphere_energy || smallest_found_energy == -1) {
