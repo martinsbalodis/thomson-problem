@@ -56,17 +56,5 @@ public class ThomsonPoint {
 
 		return vector;
 	}
-
-	/**
-	 * calculate point energy 
-	 */
-	public void calculate_energy(ThomsonPoint[] points) {
-
-		this.energy = 0;
-		for (ThomsonPoint p : points) {
-			if (p != this) {
-				this.energy += this.get_energy(p);
-			}
-		}
-	}
+	
 }

@@ -110,7 +110,7 @@ public class ThomsonSphere {
 		for (int i = 0; i < this.points.length; i++) {
 
 			for (int j = i + 1; j < this.points.length; j++) {
-				energy += this.points[i].get_energy(this.points[j]);
+				energy += this.point_energy[i][j];
 			}
 		}
 
