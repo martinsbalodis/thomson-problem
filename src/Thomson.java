@@ -16,6 +16,11 @@ public class Thomson {
 		
 		ThomsonSphere sphere = new ThomsonSphere(3);
 		
+		ThomsonPreview preview = new ThomsonPreview(sphere);
+		
 		sphere.arrange_points();
+		
+		
+		
 	}
 }
