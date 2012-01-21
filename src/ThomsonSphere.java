@@ -4,6 +4,7 @@
  */
 
 import java.util.Arrays;
+import no.geosoft.cc.geometry.Geometry;
 
 /**
  *
@@ -17,6 +18,8 @@ public class ThomsonSphere {
 	 * Point energies
 	 */
 	public double[][] energies;
+	
+	public double[][] point_distances;
 	
 	/**
 	 * Energy sum from a point to all other points
@@ -33,8 +36,9 @@ public class ThomsonSphere {
 		
 		this.energies = new double[point_count][point_count];
 		
+		this.point_distances = new double[point_count][point_count];
+		
 		this.point_energy = new double[point_count];
-		Arrays.fill(this.point_energy, 0);
 		
 		// create points
 		for (int i = 0; i < point_count; i++) {
@@ -53,28 +57,49 @@ public class ThomsonSphere {
 	 */
 	public void calculate_point_energy() {
 		
+		// clear point energy array
+		Arrays.fill(this.point_energy, 0);
+		
 		for (int i = 0; i < this.points.length; i++) {
 			for (int j = i + 1; j < this.points.length; j++) {
-				double energy = this.points[i].get_energy(this.points[j]);
-
-				this.energies[i][j] = energy;
-				this.energies[j][i] = energy;
-
-				this.point_energy[i] += energy;
-				this.point_energy[j] += energy;
+				
+				update_point_distance(i, j);
+				update_point_energy(i, j);
+				
+				// add energy to each point energy sum
+				this.point_energy[i] += this.energies[i][j];
+				this.point_energy[j] += this.energies[i][j];
 			}
 		}
 	}
 	
 	/**
-	 * Update point energy
+	 * Update distance between two points by their keys in point array
+	 * @param id1
+	 * @param id2 
 	 */
-	private void update_point_energy() {
+	public void update_point_distance(int id1, int id2) {
 		
-		for(ThomsonPoint p : this.points) {
-			p.calculate_energy(this.points);
-		}
+		double distance = this.points[id1].get_distance(this.points[id2]);
 		
+		this.point_distances[id1][id2] = distance;
+		this.point_distances[id2][id1] = distance;
+
+	}
+	
+	/**
+	 * Update point energy.
+	 * Before updating energy you must update distance
+	 * @param id1
+	 * @param id2 
+	 */
+	public void update_point_energy(int id1, int id2) {
+		
+		double energy = 1 / this.point_distances[id1][id2];
+
+		this.energies[id1][id2] = energy;
+		this.energies[id2][id1] = energy;
+
 	}
 	
 	/**
@@ -98,101 +123,114 @@ public class ThomsonSphere {
 	
 	/**
 	 * Returns point with maximum energy
-	 * @return ThomsonPoint
+	 * @return int
 	 */
-	public ThomsonPoint get_maximum_energy_point() {
+	public int get_maximum_energy_point() {
 		
 		// first point is with maximum energy
 		int maximum_energy_point = 0;
 		
 		for (int i = 0; i < this.points.length; i++) {
-			if (this.point_energy[i] < this.point_energy[maximum_energy_point]) {
+			if (this.point_energy[i] > this.point_energy[maximum_energy_point]) {
 
 				maximum_energy_point = i;
 
 			}
 		}
 
-		return this.points[maximum_energy_point];
+		return maximum_energy_point;
 	}
 	
 	/**
-	 * Find point closest points and put them in array. Closest point is array[0]
-	 * @param points
-	 * @param point 
+	 * Find closest point to a point
+	 * @param point_id
+	 * @return 
 	 */
-	public void find_closest_points(ThomsonPoint points[], ThomsonPoint point) {
+	public int find_closest_point(int point_id) {
 		
-//		if(points.length != 2) {
-//			throw new Exception("Sorry. this method is can only retur two closest points");
-//		}
+		int closest_point = -1;
 		
-		// Load n points in response array so always points will get returned
-		int loaded_points = 0;
 		for (int i = 0; i < this.points.length; i++) {
-			if (point != this.points[i]) {
-				points[loaded_points] = this.points[i];
-				loaded_points++;
-				if(loaded_points == points.length) {
-					break;
-				}
+			
+			if (point_id != i && (closest_point == -1
+					|| this.point_distances[point_id][i] < this.point_distances[point_id][closest_point])) {
+			
+				closest_point = i;
 			}
+			
 		}
 		
-		double d1 = point.get_distance(points[0]);
-		double d2 = point.get_distance(points[1]);
-		if (d2 < d1) {
-			ThomsonPoint swap = points[0];
-			points[0] = points[1];
-			points[1] = swap;
-		}
-		
-		double min_distance = 2;
-		// Find first closest points
-		for (int i = 1; i < this.points.length; i++) {
-
-			if (point != this.points[i]) {
-
-				// point is closer than previous one
-				double distance_between = point.get_distance(this.points[i]);
-				// @TODO here I might want to take <
-				if (distance_between < min_distance) {
-
-					min_distance = distance_between;
-					
-					// Move previous points up in the array
-					for (int j = points.length-2; j >= 0; j--) {
-						
-						if(points[j] != null) {
-							points[j+1] = points[j];
-						}
-					}
-					
-					// Add this point to the array
-					points[0] = this.points[i];
-				}
-			}
-		}
+		return closest_point;
 	}
 	
 	/**
 	 * Arrange to their correct places
 	 */
 	public void arrange_points() {
-
-		// update point energy
-		//this.update_point_energy();
-
+		
 		// Find point with maximum energy
-		ThomsonPoint maximum_energy_point = this.get_maximum_energy_point();
-
+		int maximum_energy_point = this.get_maximum_energy_point();
+		
 		// Find closest, second closest neighbour
-		ThomsonPoint[] max_energy_points = new ThomsonPoint[2];
-		this.find_closest_points(max_energy_points, maximum_energy_point);
+		int closest_point = find_closest_point(maximum_energy_point);
+		
+		// Move p0 away. in direction max_e_p->p0
+		move_point(closest_point, maximum_energy_point);
+		
+	}
+	
+	/**
+	 * Move point away from other point
+	 * @param point_move
+	 * @param point_away_from 
+	 */
+	public void move_point(int point_move, int point_away_from) {
+		
+		double distance_before = this.point_energy[point_away_from];
+		
+		// resulting vector for first point
+		double[] v1 = new double[3];
 
-		// Move p0 away as far as p1 goes. in direction max_e_p->p0
-		double distance_move = max_energy_points[1].get_distance(maximum_energy_point);
-		max_energy_points[0].move_point(maximum_energy_point, distance_move);
+		// vector p1->p2
+		v1 = Geometry.createVector(this.points[point_away_from].point
+				, this.points[point_move].point);
 
+		double distance_koef = 1.3;
+
+		// strech vector
+		v1[0] *= distance_koef;
+		v1[1] *= distance_koef;
+		v1[2] *= distance_koef;
+		
+		// add resulting vector to p1
+		this.points[point_move].point[0] = this.points[point_away_from].point[0] + v1[0];
+		this.points[point_move].point[1] = this.points[point_away_from].point[1] + v1[1];
+		this.points[point_move].point[2] = this.points[point_away_from].point[2] + v1[2];
+		
+		ThomsonPoint.normalizeVector(this.points[point_move].point);
+		
+		// After point is moved we must update distances 
+		// and enrgies from this point to other points
+		
+		for (int i = 0; i < this.points.length; i++) {
+			if(i != point_move) {
+				
+				// update distance
+				this.update_point_distance(i, point_move);
+				
+				// remove previously added energy from energy sums
+				this.point_energy[i] -= this.energies[i][point_move];
+				this.point_energy[point_move] -= this.energies[i][point_move];
+				
+				// update energy
+				this.update_point_energy(i, point_move);
+				
+				// add back new energy
+				this.point_energy[i] += this.energies[i][point_move];
+				this.point_energy[point_move] += this.energies[i][point_move];
+			}
+		}
+		
+		double distance_after = this.point_energy[point_away_from];
 	}
 }
