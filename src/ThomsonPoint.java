@@ -26,9 +26,6 @@ public class ThomsonPoint {
 		this.point[1] = Math.random() - .5;
 		this.point[2] = Math.random() - .5;
 		this.point = normalizeVector(this.point);
-
-		// @TODO check point colission
-
 	}
 	
 	/**
@@ -37,8 +34,10 @@ public class ThomsonPoint {
 	 * @return double
 	 */
 	public double get_distance(ThomsonPoint point) {
-		
-		return Geometry.length(this.point, point.point);
+
+		double distance = Geometry.length(this.point, point.point);
+
+		return distance == 0 ? 0.0000001 : distance;
 	}
 
 	/**
