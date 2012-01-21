@@ -13,6 +13,11 @@ import java.util.Comparator;
 public class ThomsonSphere {
 
 	public ThomsonPoint[] points;
+	
+	/**
+	 * Point energies
+	 */
+	public double[][] energies;
 
 	/**
 	 * initialize points
@@ -22,6 +27,8 @@ public class ThomsonSphere {
 
 		this.points = new ThomsonPoint[point_count];
 		
+		this.energies = new double[point_count][point_count];
+		
 		// create points
 		for (int i = 0; i < point_count; i++) {
 			
@@ -30,6 +37,23 @@ public class ThomsonSphere {
 			
 		}
 		
+		// calculate energy between points for the first time
+		calculate_point_energy();
+	}
+	
+	/**
+	 * recalculate energy between points
+	 */
+	public void calculate_point_energy() {
+		
+		for (int i = 0; i < this.points.length; i++) {
+			for (int j = i + 1; j < this.points.length; j++) {
+				double energy = this.points[i].get_energy(this.points[j]);
+				
+				this.energies[i][j] = energy;
+				this.energies[j][i] = energy;
+			}
+		}
 	}
 	
 	/**
