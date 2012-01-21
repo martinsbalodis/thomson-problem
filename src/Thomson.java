@@ -37,8 +37,10 @@ public class Thomson {
 				sphere.arrange_points();
 				preview.repaint();
 				try {
+					int sleeptime = Integer.parseInt(args[3]);
+					
 					//do what you want to do before sleeping
-					Thread.currentThread().sleep(10);//sleep for 1000 ms
+					Thread.currentThread().sleep(sleeptime);//sleep for 1000 ms
 					//do what you want to do after sleeptig
 				} catch (Exception e) {
 					//If this thread was intrrupted by nother thread 
