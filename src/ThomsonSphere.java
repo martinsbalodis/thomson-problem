@@ -3,6 +3,9 @@
  * and open the template in the editor.
  */
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 /**
  *
  * @author martins
@@ -82,17 +85,44 @@ public class ThomsonSphere {
 	 * @param point 
 	 */
 	public void find_closest_points(ThomsonPoint points[], ThomsonPoint point) {
-
+		
+//		if(points.length != 2) {
+//			throw new Exception("Sorry. this method is can only retur two closest points");
+//		}
+		
+		// Load n points in response array so always points will get returned
+		int loaded_points = 0;
+		for (int i = 0; i < this.points.length; i++) {
+			if (point != this.points[i]) {
+				points[loaded_points] = this.points[i];
+				loaded_points++;
+				if(loaded_points == points.length) {
+					break;
+				}
+			}
+		}
+		
+		double d1 = point.get_distance(points[0]);
+		double d2 = point.get_distance(points[1]);
+		if (d2 < d1) {
+			ThomsonPoint swap = points[0];
+			points[0] = points[1];
+			points[1] = swap;
+		}
+		
 		double min_distance = 2;
 		// Find first closest points
-		for (int i = 0; i < this.points.length; i++) {
+		for (int i = 1; i < this.points.length; i++) {
 
 			if (point != this.points[i]) {
 
 				// point is closer than previous one
+				double distance_between = point.get_distance(this.points[i]);
 				// @TODO here I might want to take <
-				if (point.get_distance(this.points[i]) <= min_distance) {
+				if (distance_between < min_distance) {
 
+					min_distance = distance_between;
+					
 					// Move previous points up in the array
 					for (int j = points.length-2; j >= 0; j--) {
 						
@@ -112,20 +142,20 @@ public class ThomsonSphere {
 	 * Arrange to their correct places
 	 */
 	public void arrange_points() {
-		
+
 		// update point energy
 		this.update_point_energy();
-		
+
 		// Find point with maximum energy
 		ThomsonPoint maximum_energy_point = this.get_maximum_energy_point();
-		
+
 		// Find closest, second closest neighbour
 		ThomsonPoint[] max_energy_points = new ThomsonPoint[2];
 		this.find_closest_points(max_energy_points, maximum_energy_point);
-		
+
 		// Move p0 away as far as p1 goes. in direction max_e_p->p0
 		double distance_move = max_energy_points[1].get_distance(maximum_energy_point);
 		max_energy_points[0].move_point(maximum_energy_point, distance_move);
-		
+
 	}
 }

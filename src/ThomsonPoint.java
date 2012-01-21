@@ -98,7 +98,7 @@ public class ThomsonPoint {
 		v1 = Geometry.createVector(p1.point, this.point);
 
 		double distance = Geometry.length(v1);
-		double distance_koef = distance_move / distance;
+		double distance_koef = 1.3;
 
 		// strech vector
 		v1[0] *= distance_koef;

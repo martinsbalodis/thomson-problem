@@ -39,12 +39,14 @@ public class ThomsonPreview extends Canvas {
 		//System.out.println("repaint");
 		
 		// Redraw each point
-		for(ThomsonPoint p : sphere.points) {
-			
-			graphics.drawRect((int)(p.point[0]*200.0+200), (int)(p.point[1]*200.0+200), 1, 1);
-			
-			graphics.drawOval(0, 0, 400, 400);
+		for (ThomsonPoint p : sphere.points) {
+
+			if (p.point[2] > 0) 
+			{
+				graphics.drawRect((int) (p.point[0] * 200.0 + 200), (int) (p.point[1] * 200.0 + 200), 1, 1);
+			}
 		}
+		graphics.drawOval(0, 0, 400, 400);
 	}
 	
 }
